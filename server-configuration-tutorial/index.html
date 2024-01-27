@@ -1,0 +1,1232 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-site-verification" content="j1NcHyPWxzH3GNra32Nl_aoJCCfy_Lsh1s0We2_WMq4">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Ubuntu,OpenCV,Caffe,TensorFlow,PyTorch,源码安装,在线安装,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="观星客" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="¶概述 本文详细介绍了几种算法库在Linux环境（本文以Ubuntu为例）的安装过程以及常见问题的解决方法，包括OpenCV、Caffe、TensorFlow和PyTorch。">
+<meta name="keywords" content="Ubuntu,OpenCV,Caffe,TensorFlow,PyTorch,源码安装,在线安装">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器配置教程">
+<meta property="og:url" content="http://chason.pro/server-configuration-tutorial/index.html">
+<meta property="og:site_name" content="观星客">
+<meta property="og:description" content="¶概述 本文详细介绍了几种算法库在Linux环境（本文以Ubuntu为例）的安装过程以及常见问题的解决方法，包括OpenCV、Caffe、TensorFlow和PyTorch。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-15T15:37:30.174Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux服务器配置教程">
+<meta name="twitter:description" content="¶概述 本文详细介绍了几种算法库在Linux环境（本文以Ubuntu为例）的安装过程以及常见问题的解决方法，包括OpenCV、Caffe、TensorFlow和PyTorch。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chason.pro/server-configuration-tutorial/">
+
+
+
+
+
+  <title> Linux服务器配置教程 | 观星客 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">观星客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">...</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://chason.pro/server-configuration-tutorial/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chason Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/v.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="观星客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux服务器配置教程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-18T00:00:00+08:00">
+                2017-08-18
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T23:37:30+08:00">
+                2019-05-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概述"><a class="header-anchor" href="#概述">¶</a>概述</h2>
+<p>本文详细介绍了几种算法库在Linux环境（本文以Ubuntu为例）的安装过程以及常见问题的解决方法，包括OpenCV、Caffe、TensorFlow和PyTorch。</p>
+<a id="more"></a>
+<h2 id="opencv源码安装"><a class="header-anchor" href="#opencv源码安装">¶</a>OpenCV源码安装</h2>
+<h3 id="1-更新软件库"><a class="header-anchor" href="#1-更新软件库">¶</a>1、更新软件库</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<h3 id="2-安装依赖项"><a class="header-anchor" href="#2-安装依赖项">¶</a>2、安装依赖项</h3>
+<p>复制执行以下命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes build-essential cmake git</span><br><span class="line">sudo apt-get install --assume-yes pkg-config unzip ffmpeg qtbase5-dev python-dev python3-dev python-numpy python3-numpy</span><br><span class="line">sudo apt-get install --assume-yes libopencv-dev libgtk-3-dev libdc1394-22 libdc1394-22-dev libjpeg-dev libpng12-dev libtiff5-dev libjasper-dev</span><br><span class="line">sudo apt-get install --assume-yes libavcodec-dev libavformat-dev libswscale-dev libxine2-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev</span><br><span class="line">sudo apt-get install --assume-yes libv4l-dev libtbb-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libtheora-dev</span><br><span class="line">sudo apt-get install --assume-yes libvorbis-dev libxvidcore-dev v4l-utils python-vtk</span><br><span class="line">sudo apt-get install --assume-yes liblapacke-dev libopenblas-dev checkinstall</span><br><span class="line">sudo apt-get install --assume-yes libgdal-dev</span><br></pre></td></tr></table></figure>
+<h3 id="3-安装cuda和cudnn"><a class="header-anchor" href="#3-安装cuda和cudnn">¶</a>3、安装Cuda和CuDNN</h3>
+<p>参考网上的教程<a href="https://github.com/BVLC/caffe/wiki/Ubuntu-16.04-or-15.10-Installation-Guide#the-gpu-support-prerequisites" target="_blank" rel="noopener">The GPU support prerequisites</a></p>
+<h3 id="4-下载源码"><a class="header-anchor" href="#4-下载源码">¶</a>4、下载源码</h3>
+<p>去到自己指定的目录下，下载OpenCV3.2的源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">wget https://github.com/opencv/opencv/archive/3.2.0.zip</span><br></pre></td></tr></table></figure>
+<h3 id="5-编译源码"><a class="header-anchor" href="#5-编译源码">¶</a>5、编译源码</h3>
+<p>首先解压源码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip 3.2.0.zip</span><br></pre></td></tr></table></figure>
+<p>进入OpenCV目录，创建build文件夹，并开始编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd opencv-3.2.0</span><br><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_PYTHON_EXAMPLES=ON -D INSTALL_C_EXAMPLES=OFF -D PYTHON_EXCUTABLE=/usr/bin/python -D WITH_CUDA=ON -D WITH_CUBLAS=ON -D DCUDA_NVCC_FLAGS=&quot;-D_FORCE_INLINES&quot; -D CUDA_ARCH_PTX=&quot;&quot; -D WITH_TBB=ON -D WITH_V4L=ON -D WITH_OPENGL=ON -D BUILD_EXAMPLES=ON ..</span><br><span class="line">make -j$(nproc)</span><br></pre></td></tr></table></figure>
+<h3 id="6-编译安装"><a class="header-anchor" href="#6-编译安装">¶</a>6、编译安装</h3>
+<p>编译完成后即可安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo make install -j$(nproc)</span><br><span class="line">sudo /bin/bash -c &apos;echo &quot;/usr/local/lib&quot; &gt; /etc/ld.so.conf.d/opencv.conf&apos;</span><br><span class="line">sudo ldconfig</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="7-常见问题"><a class="header-anchor" href="#7-常见问题">¶</a>7、常见问题</h3>
+<ul>
+<li>编译过程中如果ippicv文件下载失败，可以自行<a href="https://github.com/opencv/opencv_3rdparty/tree/ippicv/master_20151201/ippicv" target="_blank" rel="noopener">下载</a>，拷贝到<code>opencv-3.2.0/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e</code>目录下</li>
+</ul>
+<h2 id="caffe源码安装"><a class="header-anchor" href="#caffe源码安装">¶</a>Caffe源码安装</h2>
+<h3 id="1-下载caffe源码"><a class="header-anchor" href="#1-下载caffe源码">¶</a>1、下载Caffe源码</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">git clone https://github.com/BVLC/caffe.git</span><br></pre></td></tr></table></figure>
+<h3 id="2-安装依赖项-v2"><a class="header-anchor" href="#2-安装依赖项-v2">¶</a>2、安装依赖项</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes libprotobuf-dev libleveldb-dev libsnappy-dev libopencv-dev libhdf5-serial-dev protobuf-compiler</span><br><span class="line">sudo apt-get install --assume-yes --no-install-recommends libboost-all-dev</span><br><span class="line">sudo apt-get install --assume-yes libgflags-dev libgoogle-glog-dev liblmdb-dev</span><br></pre></td></tr></table></figure>
+<h3 id="3-安装blas"><a class="header-anchor" href="#3-安装blas">¶</a>3、安装BLAS</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes libatlas-base-dev</span><br></pre></td></tr></table></figure>
+<h3 id="4-cmake编译"><a class="header-anchor" href="#4-cmake编译">¶</a>4、CMake编译</h3>
+<p>若未安装vim，则先安装vim：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes vim</span><br></pre></td></tr></table></figure>
+<p>进入caffe目录，复制配置文件，并修改配置文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd caffe</span><br><span class="line">cp Makefile.config.example Makefile.config</span><br><span class="line">vim Makefile.config</span><br></pre></td></tr></table></figure>
+<p><strong>注意，Caffe的配置信息需要进行一定修改，否则会造成编译出错。</strong></p>
+<ol>
+<li>如果需要使用CuDNN，则取消<code>USE_CUDNN := 1</code>的注释</li>
+<li>如果需要使用OpenCV3，则取消<code>OPENCV_VERSION := 3</code>的注释</li>
+<li>如果需要使用Python，则取消<code>WITH_PYTHON_LAYER := 1</code>的注释</li>
+<li>在<strong>Makefile.config</strong>的94行，需要进行如下修改，否则会有hdf5无法找到的错误：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--- INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include</span><br><span class="line">+++ INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/</span><br></pre></td></tr></table></figure>
+<pre><code>其中`---`代表删除本行，`+++`代表增加本行。
+</code></pre>
+<p>另外，<strong>Makefile</strong>也需要修改181行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim Makefile</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--- LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_hl hdf5</span><br><span class="line">+++ LIBRARIES += glog gflags protobuf boost_system boost_filesystem m hdf5_serial_hl hdf5_serial</span><br></pre></td></tr></table></figure>
+<p>修改完后即可用CMake编译：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make all -j$(nproc)</span><br><span class="line">make install -j$(nproc)</span><br><span class="line">make runtest -j$(nproc)</span><br></pre></td></tr></table></figure>
+<p>若需要在Python中调用，则执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make pycaffe -j$(nproc)</span><br></pre></td></tr></table></figure>
+<p>最后还需要添加路径到PYTHONPATH中，打开.bashrc文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>在.bashrc的最后一行添加实际的caffe/python的路径，（注意：需要按照实际情况修改路径）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PYTHONPATH=&quot;$PYTHONPATH:/&lt;your/path&gt;/caffe/python&quot;</span><br></pre></td></tr></table></figure>
+<p>并让其生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>现在便可以在Python中import caffe，测试能否成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python</span><br><span class="line">import caffe</span><br></pre></td></tr></table></figure>
+<h3 id="5-常见问题"><a class="header-anchor" href="#5-常见问题">¶</a>5、常见问题</h3>
+<ul>
+<li>
+<p><code>ImportError: dynamic module does not define init function (init_caffe)</code></p>
+<p>当前Python版本和编译时Python版本不一致，需要一致使用Python2或者Python3</p>
+</li>
+<li>
+<p><code>F0108 20:21:26.907105 15849 pooling_layer.cu:212] Check failed: error == cudaSuccess (8 vs. 0) invalid device function</code></p>
+<p>编译配置中算力选择与当前设备算力不一致，参考<a href="https://developer.nvidia.com/cuda-gpus#collapseOne" target="_blank" rel="noopener">官方显卡算力表</a></p>
+</li>
+</ul>
+<h2 id="tensorflow虚拟环境安装"><a class="header-anchor" href="#tensorflow虚拟环境安装">¶</a>TensorFlow虚拟环境安装</h2>
+<h3 id="1-下载指定版本源码"><a class="header-anchor" href="#1-下载指定版本源码">¶</a>1、下载指定版本源码</h3>
+<p>在自定义目录中下载源码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir virtual-env</span><br><span class="line">cd virtual-env</span><br><span class="line">git clone https://github.com/tensorflow/tensorflow</span><br></pre></td></tr></table></figure>
+<p>选择指定版本，比如r1.0：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd tensorflow</span><br><span class="line">git checkout r1.0</span><br></pre></td></tr></table></figure>
+<h3 id="2-安装依赖项-v3"><a class="header-anchor" href="#2-安装依赖项-v3">¶</a>2、安装依赖项</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install python-pip python-dev python-virtualenv # for Python 2.7</span><br><span class="line">sudo apt-get install python3-pip python3-dev python-virtualenv # for Python 3.n</span><br></pre></td></tr></table></figure>
+<h3 id="3-创建虚拟环境"><a class="header-anchor" href="#3-创建虚拟环境">¶</a>3、创建虚拟环境</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">virtualenv --system-site-packages ~/virtual-env/tensorflow # for Python 2.7</span><br><span class="line">virtualenv --system-site-packages -p python3 ~/virtual-env/tensorflow # for Python 3.n</span><br></pre></td></tr></table></figure>
+<h3 id="4-激活虚拟环境"><a class="header-anchor" href="#4-激活虚拟环境">¶</a>4、激活虚拟环境</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/virtual-env/tensorflow/bin/activate</span><br></pre></td></tr></table></figure>
+<h3 id="5-安装tensorflow"><a class="header-anchor" href="#5-安装tensorflow">¶</a>5、安装TensorFlow</h3>
+<ul>
+<li>Python2.7 CPU only</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp27-none-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python2.7 GPU</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp27-none-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python3.4 CPU only</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp34-cp34m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python3.4 GPU</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp34-cp34m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python3.5 CPU only</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.0.1-cp35-cp35m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Python3.5 GPU</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 install --upgrade https://storage.googleapis.com/tensorflow/linux/gpu/tensorflow_gpu-1.0.1-cp35-cp35m-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<h3 id="6-验证安装结果"><a class="header-anchor" href="#6-验证安装结果">¶</a>6、验证安装结果</h3>
+<p>TensorFlow已经安装完毕，现在可以测试安装是否成功。<br>
+首先要注意退出tensorflow的目录，否则会出现<code>ImportError: cannot import name pywrap_tensorflow</code>的错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">python</span><br></pre></td></tr></table></figure>
+<p>输入以下Python代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</span><br><span class="line">sess = tf.Session()</span><br><span class="line">print(sess.run(hello))</span><br></pre></td></tr></table></figure>
+<h2 id="tensorflow源码安装"><a class="header-anchor" href="#tensorflow源码安装">¶</a>TensorFlow源码安装</h2>
+<h3 id="1-下载指定版本源码-v2"><a class="header-anchor" href="#1-下载指定版本源码-v2">¶</a>1、下载指定版本源码</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/tensorflow/tensorflow</span><br></pre></td></tr></table></figure>
+<p>选择指定版本，比如r1.0：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd tensorflow</span><br><span class="line">git checkout r1.0</span><br></pre></td></tr></table></figure>
+<h3 id="2-安装bazel"><a class="header-anchor" href="#2-安装bazel">¶</a>2、安装Bazel</h3>
+<p>安装JDK8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes openjdk-8-jdk</span><br></pre></td></tr></table></figure>
+<p>若未安装curl，则先安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes curl</span><br></pre></td></tr></table></figure>
+<p>添加包源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8&quot; | sudo tee /etc/apt/sources.list.d/bazel.list</span><br><span class="line">curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+<p>更新并安装Bazel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install --assume-yes bazel</span><br></pre></td></tr></table></figure>
+<h3 id="3-安装python依赖项"><a class="header-anchor" href="#3-安装python依赖项">¶</a>3、安装Python依赖项</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes python-numpy python-dev python-pip python-wheel</span><br></pre></td></tr></table></figure>
+<h3 id="4-安装gpu依赖项"><a class="header-anchor" href="#4-安装gpu依赖项">¶</a>4、安装GPU依赖项</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install --assume-yes libcupti-dev</span><br></pre></td></tr></table></figure>
+<h3 id="5-配置安装选项"><a class="header-anchor" href="#5-配置安装选项">¶</a>5、配置安装选项</h3>
+<p>假设目前还在tensorflow目录下，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br></pre></td></tr></table></figure>
+<p>即可开始配置参数，常见的配置例子如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Please specify the location of python. [Default is /usr/bin/python]: /usr/bin/python2.7</span><br><span class="line">Found possible Python library paths:</span><br><span class="line">  /usr/local/lib/python2.7/dist-packages</span><br><span class="line">  /usr/lib/python2.7/dist-packages</span><br><span class="line">Please input the desired Python library path to use.  Default is [/usr/lib/python2.7/dist-packages]</span><br><span class="line"></span><br><span class="line">Using python library path: /usr/local/lib/python2.7/dist-packages</span><br><span class="line">Do you wish to build TensorFlow with MKL support? [y/N]</span><br><span class="line">No MKL support will be enabled for TensorFlow</span><br><span class="line">Please specify optimization flags to use during compilation when bazel option &quot;--config=opt&quot; is specified [Default is -march=native]:</span><br><span class="line">Do you wish to use jemalloc as the malloc implementation? [Y/n]</span><br><span class="line">jemalloc enabled</span><br><span class="line">Do you wish to build TensorFlow with Google Cloud Platform support? [y/N]</span><br><span class="line">No Google Cloud Platform support will be enabled for TensorFlow</span><br><span class="line">Do you wish to build TensorFlow with Hadoop File System support? [y/N]</span><br><span class="line">No Hadoop File System support will be enabled for TensorFlow</span><br><span class="line">Do you wish to build TensorFlow with the XLA just-in-time compiler (experimental)? [y/N]</span><br><span class="line">No XLA support will be enabled for TensorFlow</span><br><span class="line">Do you wish to build TensorFlow with VERBS support? [y/N]</span><br><span class="line">No VERBS support will be enabled for TensorFlow</span><br><span class="line">Do you wish to build TensorFlow with OpenCL support? [y/N]</span><br><span class="line">No OpenCL support will be enabled for TensorFlow</span><br><span class="line">Do you wish to build TensorFlow with CUDA support? [y/N] Y</span><br><span class="line">CUDA support will be enabled for TensorFlow</span><br><span class="line">Do you want to use clang as CUDA compiler? [y/N]</span><br><span class="line">nvcc will be used as CUDA compiler</span><br><span class="line">Please specify the Cuda SDK version you want to use, e.g. 7.0. [Leave empty to default to CUDA 8.0]:</span><br><span class="line">Please specify the location where CUDA 8.0 toolkit is installed. Refer to README.md for more details. [Default is /usr/local/cuda]:</span><br><span class="line">Please specify which gcc should be used by nvcc as the host compiler. [Default is /usr/bin/gcc]:</span><br><span class="line">Please specify the cuDNN version you want to use. [Leave empty to default to cuDNN 6.0]: </span><br><span class="line">Please specify the location where cuDNN 6 library is installed. Refer to README.md for more details. [Default is /usr/local/cuda]:</span><br><span class="line">Please specify a list of comma-separated Cuda compute capabilities you want to build with.</span><br><span class="line">You can find the compute capability of your device at: https://developer.nvidia.com/cuda-gpus.</span><br><span class="line">Please note that each additional compute capability significantly increases your build time and binary size.</span><br><span class="line">[Default is: &quot;3.5,5.2&quot;]:</span><br><span class="line">Do you wish to build TensorFlow with MPI support? [y/N] </span><br><span class="line">MPI support will not be enabled for TensorFlow</span><br><span class="line">Configuration finished</span><br></pre></td></tr></table></figure>
+<p>注意CUDA默认为否，需要用CUDA时，请输入Y。</p>
+<h3 id="6-生成-whl包"><a class="header-anchor" href="#6-生成-whl包">¶</a>6、生成.whl包</h3>
+<ul>
+<li>CPU版本：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package</span><br></pre></td></tr></table></figure>
+<ul>
+<li>GPU版本：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package</span><br></pre></td></tr></table></figure>
+<p>执行如下命令，即可在/tmp/tensorflow_pkg目录下生成<code>.whl</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg</span><br></pre></td></tr></table></figure>
+<h3 id="7-使用pip安装-whl包"><a class="header-anchor" href="#7-使用pip安装-whl包">¶</a>7、使用pip安装.whl包</h3>
+<p>假设安装的是1.0.1版本：（注意：如果版本不一样，如下命令需要修改相应文件名）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip install /tmp/tensorflow_pkg/tensorflow-1.0.1-cp27-cp27mu-linux_x86_64.whl</span><br></pre></td></tr></table></figure>
+<h3 id="8-验证安装结果"><a class="header-anchor" href="#8-验证安装结果">¶</a>8、验证安装结果</h3>
+<p>TensorFlow已经安装完毕，现在可以测试安装是否成功。<br>
+首先要注意退出tensorflow的目录，否则会出现<code>ImportError: cannot import name pywrap_tensorflow</code>的错误。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">python</span><br></pre></td></tr></table></figure>
+<p>输入以下Python代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</span><br><span class="line">sess = tf.Session()</span><br><span class="line">print(sess.run(hello))</span><br></pre></td></tr></table></figure>
+<p>如果能输出<code>Hello, TensorFlow!</code>，则说明安装成功！</p>
+<h3 id="9-常见问题"><a class="header-anchor" href="#9-常见问题">¶</a>9、常见问题</h3>
+<p>错误信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ImportError: libcudart.so.8.0: cannot open shared object file: No such file or directory</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>临时解决办法：<br>
+原因是找不到cuda库，需要指定目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/cuda/lib64&quot;</span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>永久解决办法<br>
+打开~/.bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>在最后一行添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=&quot;$LD_LIBRARY_PATH:/usr/local/cuda/lib64&quot;</span><br></pre></td></tr></table></figure>
+<p>保存后，让其生效：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>以后每次登陆都会自动执行一次export指令，保证路径永久有效。</p>
+</li>
+</ul>
+<h2 id="pytorch在线安装"><a class="header-anchor" href="#pytorch在线安装">¶</a>PyTorch在线安装</h2>
+<h3 id="1-安装指令获取"><a class="header-anchor" href="#1-安装指令获取">¶</a>1、安装指令获取</h3>
+<p>安装命令可以在<a href="http://pytorch.org/" target="_blank" rel="noopener">官网</a>根据需要选择不同的安装方式</p>
+<h3 id="2-常见问题"><a class="header-anchor" href="#2-常见问题">¶</a>2、常见问题</h3>
+<ul>
+<li>
+<p>如果<code>import torch</code>时报错<br>
+<code>F0822 15:58:51.328765 31898 cudnn.hpp:113] Check failed: status == CUDNN_STATUS_SUCCESS (3 vs. 0) CUDNN_STATUS_BAD_PARAM</code></p>
+<p>安装如下软件可能可以解决问题：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libtcmalloc-minimal4</span><br></pre></td></tr></table></figure>
+<p>并设置好路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>在.bashrc最后一行添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_PRELOAD=&quot;$LD_PRELOAD:/usr/lib/libtcmalloc_minimal.so.4&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>***/torch/lib/libtorch.so.1: undefined symbol: _ZTIN2at10TensorImplE</code></p>
+<p>可能是和caffe2版本不一致，删除/usr/local/lib下的libcaffe*文件即可</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>您的支持将鼓励我继续创作！</div>
+	<button id="rewardButton" ,="" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}" style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+	  <span onmouseover="this.style.color='rgb(255,255,255)';this.style.background='rgb(250,140,130)'" onmouseout="this.style.color='#fff';this.style.background='rgb(250,80,60)'" style="display: inline-block; width: 55px; height: 55px; border-radius: 100%; line-height: 11px; color: #fff; font: 300 30px/52px 'microsofty'; background: rgb(250,80,60)">赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/reward/wx.jpg" alt="Chason Lee WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/reward/zfb.jpg" alt="Chason Lee Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Chason Lee
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chason.pro/server-configuration-tutorial/" title="Linux服务器配置教程">http://chason.pro/server-configuration-tutorial/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/OpenCV/" rel="tag"># OpenCV</a>
+          
+            <a href="/tags/Caffe/" rel="tag"># Caffe</a>
+          
+            <a href="/tags/TensorFlow/" rel="tag"># TensorFlow</a>
+          
+            <a href="/tags/PyTorch/" rel="tag"># PyTorch</a>
+          
+            <a href="/tags/源码安装/" rel="tag"># 源码安装</a>
+          
+            <a href="/tags/在线安装/" rel="tag"># 在线安装</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/screen-tutorial/" rel="next" title="screen教程">
+                <i class="fa fa-chevron-left"></i> screen教程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/mounting-drives-in-linux/" rel="prev" title="Linux挂载磁盘">
+                Linux挂载磁盘 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/v.jpg" alt="Chason Lee">
+          <p class="site-author-name" itemprop="name">Chason Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chasonlee" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chasonleech" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-text">¶概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#opencv源码安装"><span class="nav-text">¶OpenCV源码安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-更新软件库"><span class="nav-text">¶1、更新软件库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装依赖项"><span class="nav-text">¶2、安装依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装cuda和cudnn"><span class="nav-text">¶3、安装Cuda和CuDNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-下载源码"><span class="nav-text">¶4、下载源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-编译源码"><span class="nav-text">¶5、编译源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-编译安装"><span class="nav-text">¶6、编译安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-常见问题"><span class="nav-text">¶7、常见问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#caffe源码安装"><span class="nav-text">¶Caffe源码安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载caffe源码"><span class="nav-text">¶1、下载Caffe源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装依赖项-v2"><span class="nav-text">¶2、安装依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装blas"><span class="nav-text">¶3、安装BLAS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-cmake编译"><span class="nav-text">¶4、CMake编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-常见问题"><span class="nav-text">¶5、常见问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow虚拟环境安装"><span class="nav-text">¶TensorFlow虚拟环境安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载指定版本源码"><span class="nav-text">¶1、下载指定版本源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装依赖项-v3"><span class="nav-text">¶2、安装依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-创建虚拟环境"><span class="nav-text">¶3、创建虚拟环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-激活虚拟环境"><span class="nav-text">¶4、激活虚拟环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-安装tensorflow"><span class="nav-text">¶5、安装TensorFlow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-验证安装结果"><span class="nav-text">¶6、验证安装结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tensorflow源码安装"><span class="nav-text">¶TensorFlow源码安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-下载指定版本源码-v2"><span class="nav-text">¶1、下载指定版本源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装bazel"><span class="nav-text">¶2、安装Bazel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-安装python依赖项"><span class="nav-text">¶3、安装Python依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-安装gpu依赖项"><span class="nav-text">¶4、安装GPU依赖项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-配置安装选项"><span class="nav-text">¶5、配置安装选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-生成-whl包"><span class="nav-text">¶6、生成.whl包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-使用pip安装-whl包"><span class="nav-text">¶7、使用pip安装.whl包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-验证安装结果"><span class="nav-text">¶8、验证安装结果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-常见问题"><span class="nav-text">¶9、常见问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pytorch在线安装"><span class="nav-text">¶PyTorch在线安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-安装指令获取"><span class="nav-text">¶1、安装指令获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-常见问题"><span class="nav-text">¶2、常见问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chason Lee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访客量
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+</body>
+</html>

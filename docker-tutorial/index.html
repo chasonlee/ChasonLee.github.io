@@ -1,0 +1,1368 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="google-site-verification" content="j1NcHyPWxzH3GNra32Nl_aoJCCfy_Lsh1s0We2_WMq4">
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Docker,Ubuntu,镜像,容器,CUDA,深度学习,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="观星客" type="application/atom+xml">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="¶简介 Docker的诞生，让应用的部署变得前所未有的高效，它能将应用及其依赖项打包成容器分发部署，从而保证了应用运行环境的一致性。Docker容器其实是一种比虚拟机更轻量的技术，容器中的进程直接运行在宿主机的内核，其启动速度十分快，基本可以做到秒级启动，并不像虚拟机那样对硬件进行模拟，并在之上运行一整套操作系统，所以容器相比虚拟机更为轻便。">
+<meta name="keywords" content="Docker,Ubuntu,镜像,容器,CUDA,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker超详细教程">
+<meta property="og:url" content="http://chason.pro/docker-tutorial/index.html">
+<meta property="og:site_name" content="观星客">
+<meta property="og:description" content="¶简介 Docker的诞生，让应用的部署变得前所未有的高效，它能将应用及其依赖项打包成容器分发部署，从而保证了应用运行环境的一致性。Docker容器其实是一种比虚拟机更轻量的技术，容器中的进程直接运行在宿主机的内核，其启动速度十分快，基本可以做到秒级启动，并不像虚拟机那样对硬件进行模拟，并在之上运行一整套操作系统，所以容器相比虚拟机更为轻便。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://chason.pro/docker-tutorial/enter_docker.jpg">
+<meta property="og:image" content="http://chason.pro/docker-tutorial/run_clock.jpg">
+<meta property="og:image" content="http://chason.pro/docker-tutorial/htop.jpg">
+<meta property="og:updated_time" content="2021-05-20T17:26:56.682Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker超详细教程">
+<meta name="twitter:description" content="¶简介 Docker的诞生，让应用的部署变得前所未有的高效，它能将应用及其依赖项打包成容器分发部署，从而保证了应用运行环境的一致性。Docker容器其实是一种比虚拟机更轻量的技术，容器中的进程直接运行在宿主机的内核，其启动速度十分快，基本可以做到秒级启动，并不像虚拟机那样对硬件进行模拟，并在之上运行一整套操作系统，所以容器相比虚拟机更为轻便。">
+<meta name="twitter:image" content="http://chason.pro/docker-tutorial/enter_docker.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://chason.pro/docker-tutorial/">
+
+
+
+
+
+  <title> Docker超详细教程 | 观星客 </title>
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">观星客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">...</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope="" itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://chason.pro/docker-tutorial/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Chason Lee">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/v.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="观星客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                Docker超详细教程
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-16T00:00:00+08:00">
+                2019-05-16
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2021-05-21T01:26:56+08:00">
+                2021-05-21
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i> 热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="简介"><a class="header-anchor" href="#简介">¶</a>简介</h2>
+<p>Docker的诞生，让应用的部署变得前所未有的高效，它能将应用及其依赖项打包成容器分发部署，从而保证了应用运行环境的一致性。Docker容器其实是一种比虚拟机更轻量的技术，容器中的进程直接运行在宿主机的内核，其启动速度十分快，基本可以做到秒级启动，并不像虚拟机那样对硬件进行模拟，并在之上运行一整套操作系统，所以容器相比虚拟机更为轻便。</p>
+<a id="more"></a>
+<hr>
+<h2 id="理解docker"><a class="header-anchor" href="#理解docker">¶</a>理解Docker</h2>
+<p>Docker有三个基本概念：仓库（Repository），镜像（Image）和容器（Container）。</p>
+<ul>
+<li><strong>仓库（Repository）</strong> 是一个集中存放镜像的空间。我们写的代码可以上传到<a href="https://github.com/" target="_blank" rel="noopener">Github</a>仓库中，类似的，Docker的镜像就能上传到<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>仓库，以便镜像的分发部署。Docker Hub是官方的公开服务，每个账号可以建立一个免费的私有仓库。</li>
+<li><strong>镜像（Image）</strong> 是一个特殊的文件系统，其中存储了应用和环境的所有数据，镜像在构建之后是静态的，不可改变的。</li>
+<li><strong>容器（Container）</strong> 是镜像的运行实体，类似于面向对象编程中的<strong>类</strong>与<strong>实例</strong>，一个静态的镜像可以产生多个独立动态运行的容器。我们实际使用Docker就是在容器中运行自己的应用，每个容器都有自己独立的运行空间，与宿主系统环境隔绝。</li>
+</ul>
+<hr>
+<h2 id="快速上手docker"><a class="header-anchor" href="#快速上手docker">¶</a>快速上手Docker</h2>
+<p>为了让读者能快速上手Docker，下面以一个实际应用进行说明，让我们从易到难，先假设目前已经构建好一个镜像，后面我们会具体讲如何构建这个镜像。读者可以跟随本文实际操作，学习效果会更佳。</p>
+<h3 id="一-安装docker"><a class="header-anchor" href="#一-安装docker">¶</a>一、安装Docker</h3>
+<p>本文以Ubuntu系统安装Docker CE版本为例，更详细的其他版本安装步骤可以参考<a href="https://docs.docker.com/" target="_blank" rel="noopener">Docker官网文档</a></p>
+<ol>
+<li>卸载旧版本</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove docker docker-engine docker.io containerd runc</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>安装依赖包</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    gnupg-agent \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>添加GPG key，并设置<code>stable</code>版本的仓库</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">sudo add-apt-repository \</span><br><span class="line">   &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line">   $(lsb_release -cs) \</span><br><span class="line">   stable&quot;</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>apt-get安装</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>验证安装结果</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker run --rm hello-world</span><br></pre></td></tr></table></figure>
+<p><code>--rm</code>参数代表我们运行后随即删除这个容器，因为我们只需要这个容器输出一段信息而已。</p>
+<p>执行后会输出类似这样的信息，说明已经安装成功：</p>
+<blockquote>
+<p>Hello from Docker!<br>
+This message shows that your installation appears to be working correctly.</p>
+<p>To generate this message, Docker took the following steps:</p>
+<ol>
+<li>The Docker client contacted the Docker daemon.</li>
+<li>The Docker daemon pulled the “hello-world” image from the Docker Hub.<br>
+(amd64)</li>
+<li>The Docker daemon created a new container from that image which runs the<br>
+executable that produces the output you are currently reading.</li>
+<li>The Docker daemon streamed that output to the Docker client, which sent it<br>
+to your terminal.</li>
+</ol>
+<p>To try something more ambitious, you can run an Ubuntu container with:<br>
+$ docker run -it ubuntu bash</p>
+<p>Share images, automate workflows, and more with a free Docker ID:<br>
+<a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a></p>
+<p>For more examples and ideas, visit:<br>
+<a href="https://docs.docker.com/get-started/" target="_blank" rel="noopener">https://docs.docker.com/get-started/</a></p>
+</blockquote>
+<ol start="6">
+<li>免sudo运行<br>
+每次运行docker都要加一个sudo挺麻烦，我们将当前账号加入Docker组里面即可免sudo运行Docker：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker</span><br><span class="line">sudo gpasswd -a $&#123;USER&#125; docker</span><br><span class="line">sudo service docker restart</span><br><span class="line">newgrp - docker</span><br></pre></td></tr></table></figure>
+<h3 id="二-镜像操作"><a class="header-anchor" href="#二-镜像操作">¶</a>二、镜像操作</h3>
+<h4 id="1-获取docker镜像"><a class="header-anchor" href="#1-获取docker镜像">¶</a>1、获取Docker镜像</h4>
+<p>笔者在Ubuntu 16.04镜像的基础上，制作了一个很简单的Docker镜像，里面有一个<code>my_clock.py</code>Python文件，执行后就会间隔一秒钟输出一次当前系统时间。此镜像我已经上传到自己的<a href="https://cloud.docker.com/repository/docker/chasonlee/ubuntu_demo" target="_blank" rel="noopener">Docker Hub公共仓库</a>中，任何人都可以随时下载，执行以下命令即可将此镜像下载到本地：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull chasonlee/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<p>其中<code>chasonlee/ubuntu_demo</code>是镜像名字，<code>latest</code>是镜像的标签Tag，不同的Tag代表不同的版本，执行后会显示如下信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">latest: Pulling from chasonlee/ubuntu_demo</span><br><span class="line">9ff7e2e5f967: Pull complete</span><br><span class="line">59856638ac9f: Pull complete</span><br><span class="line">6f317d6d954b: Pull complete</span><br><span class="line">a9dde5e2a643: Pull complete</span><br><span class="line">583e635329f1: Pull complete</span><br><span class="line">d74dae086c4f: Pull complete</span><br><span class="line">Digest: sha256:f4396916a5cbb3ece8e5eb74a860d956b8957965675d5dde707ed4f316407b8c</span><br><span class="line">Status: Downloaded newer image for chasonlee/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<p>从信息中我们可以看出，镜像的下载是一层一层分开的，镜像是分层存储，<code>9ff7e2e5f967</code>是其中一层。Docker有一个优点，不同镜像之间如果基于某些相同的镜像进行定制化修改，就可以共享部分相同的层，从而节省空间的占用。</p>
+<h4 id="2-查看本地镜像"><a class="header-anchor" href="#2-查看本地镜像">¶</a>2、查看本地镜像</h4>
+<p>执行以下命令可以查看当前所有本地镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images</span><br></pre></td></tr></table></figure>
+<p>执行后就能看到我们刚刚pull回来的镜像和一个之前的hello-world镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                	TAG                     IMAGE ID            CREATED             	SIZE</span><br><span class="line">chasonlee/ubuntu_demo		latest                  59693b89568e        2 minutes ago         	158MB</span><br><span class="line">hello-world               	latest                  fce289e99eb9        4 months ago        	1.84kB</span><br></pre></td></tr></table></figure>
+<p><em>可能读者会疑惑为什么有hello-world镜像，因为当我们执行<code>docker run --rm hello-world</code>的时候，在本地找不到hello-world镜像，就会自动到Docker Hub上找到相应镜像下载回来，再根据此镜像来新建并启动容器。</em></p>
+<p>另外，我们也可以查看<strong>中间层镜像</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images -a</span><br></pre></td></tr></table></figure>
+<p>如果不同镜像之间有复用的中间层，这里就会看见一些没有镜像名和标签的镜像，很多镜像依赖这些中间层，所以中间层镜像是<strong>不能随意删除</strong>的。</p>
+<h4 id="3-删除镜像"><a class="header-anchor" href="#3-删除镜像">¶</a>3、删除镜像</h4>
+<p>当我们想删除一些不需要的镜像时，比如<code>hello-world</code>镜像，可以执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi hello-world</span><br></pre></td></tr></table></figure>
+<p>如果此时有基于此镜像的容器，则需要先删除相应的容器才能删除此镜像，如果想强制删除镜像，加上<code>-f</code>参数即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi -f &lt;image name&gt;</span><br></pre></td></tr></table></figure>
+<p>在使用<code>docker images</code>查看本地镜像时（不加<code>-a</code>参数时），我们也可能会发现一些没有镜像名和标签的镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                	TAG                     IMAGE ID            CREATED             	SIZE</span><br><span class="line">chasonlee/ubuntu_demo		latest                  59693b89568e        2 minutes ago         	158MB</span><br><span class="line">hello-world               	latest                  fce289e99eb9        4 months ago        	1.84kB</span><br><span class="line">&lt;none&gt;				&lt;none&gt;                  3517732c5437        7 weeks ago			2.74GB</span><br></pre></td></tr></table></figure>
+<p>不同于上面提到的中间层镜像，我们称这种镜像为<strong>虚悬镜像（dangling image）</strong>，有几种情况会产生虚悬镜像，比如上述强制删除一个已经运行容器的镜像，或者使用<code>docker pull</code>命令更新镜像时，镜像的名称和标签会转移到新镜像中，旧的镜像就会变成虚悬镜像，另外，在使用<code>docker build</code>构建镜像的时候，如果构建失败也会产生虚悬镜像。一般来说虚悬镜像已经没有实际用处，可以随意删除，一条命令就能清除所有虚悬镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image prune</span><br></pre></td></tr></table></figure>
+<h4 id="4-导出镜像"><a class="header-anchor" href="#4-导出镜像">¶</a>4、导出镜像</h4>
+<p>上文中我们用<code>docker pull</code>命令将镜像从Docker Hub下载到本地，如果目标环境不能访问外网时无法下载，我们就可以直接导出镜像文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save -o ubuntu_demo.tar chasonlee/ubuntu_demo</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-o</code>参数后面接着输出文件名。</li>
+<li><code>chasonlee/ubuntu_demo</code>是需要导出的镜像名。</li>
+</ul>
+<p>注意：这里只是导出一个静态的镜像，根据当前镜像启动的容器环境并不能直接导出，如果需要迁移当前容器的环境，还需要先使用<code>commit</code>命令自行制作一个镜像再导出，详情可跳转到<a href="http://chason.me/docker-tutorial/#%E4%B8%80-%E7%90%86%E8%A7%A3commit" target="_blank" rel="noopener">理解commit</a>章节阅读。</p>
+<p>假如镜像文件很大，可以直接压缩导出镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker save chasonlee/ubuntu_demo:latest | gzip &gt; ubuntu_demo.tar.gz</span><br></pre></td></tr></table></figure>
+<h4 id="5-导入镜像"><a class="header-anchor" href="#5-导入镜像">¶</a><em>5、导入镜像</em></h4>
+<p>然后拷贝此镜像文件到目标环境中，并导入镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker load -i ubuntu_demo.tar</span><br></pre></td></tr></table></figure>
+<p>或者直接导入压缩后的镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gunzip -c ubuntu_demo.tar.gz | docker load</span><br></pre></td></tr></table></figure>
+<p>导入后可以即可通过<code>docker images</code>查看镜像。</p>
+<h4 id="6-修改镜像名称及标签"><a class="header-anchor" href="#6-修改镜像名称及标签">¶</a>6、修改镜像名称及标签</h4>
+<p>如果我们想把镜像名称改为<code>ubuntu_chason:1.0</code>，则执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag chasonlee/ubuntu_demo:latest ubuntu_chason:1.0</span><br></pre></td></tr></table></figure>
+<h3 id="三-容器操作"><a class="header-anchor" href="#三-容器操作">¶</a>三、容器操作</h3>
+<h4 id="1-新建并启动容器"><a class="header-anchor" href="#1-新建并启动容器">¶</a>1、新建并启动容器</h4>
+<p>前面我们有讲过，镜像是静态的，容器才是实际运行的实体，Docker可以基于某个镜像新建容器。可以这么理解，用一个镜像来初始化新建的容器。容器运行之后的所有变化都不会反过来影响镜像，容器在运行终止后，里面新产生的数据将会随之丢弃。</p>
+<p>为了方便，我们通常会新建容器并让其后台持续运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit --name my_ubuntu chasonlee/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-dit</code>有三个参数，其顺序没有影响，<code>-t</code>能让Docker分配一个伪终端，并绑定到容器的输入上，<code>-i</code>能让容器的标准输入保持打开状态，<code>-d</code>则可以让容器在后台保持运行。</li>
+<li><code>--name my_ubuntu</code>可以为容器命名，方便自己管理。</li>
+<li><code>chasonlee/ubuntu_chason:latest</code>是初始化容器的镜像名加标签Tag。</li>
+</ul>
+<p>执行后就会打印一行此容器的ID，说明容器已经成功在后台运行。</p>
+<p>另外，我们也可以在让容器一次性运行一条命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --rm chasonlee/ubuntu_demo:latest echo &quot;hello world&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>--rm</code>我们之前解释过，是为了容器停止后直接删除，避免留下一个已经停止的容器。</li>
+</ul>
+<p>这条命令看起来和我们在本地直接运行<code>echo &quot;hello world&quot;</code>并没有什么区别，我们只是在容器中执行了echo指令，输出结果，容器就停止了。</p>
+<p>或者我们也可以直接运行容器的bash终端：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm chasonlee/ubuntu_demo:latest bash</span><br></pre></td></tr></table></figure>
+<p>执行本命令就会看到容器的伪终端，此时我们就继续在容器中执行命令，要注意的是，当我们执行<code>exit</code>退出容器时，容器就会停止，<code>--rm</code>参数会在容器停止后直接删除容器。</p>
+<h4 id="2-查看容器"><a class="header-anchor" href="#2-查看容器">¶</a>2、查看容器</h4>
+<p>执行以下命令可以查看所有容器及其状态：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<p>执行后会输出以下类似信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID	IMAGE				COMMAND		CREATED		STATUS		PORTS	NAMES</span><br><span class="line">d346805da373	chasonlee/ubuntu_demo:latest	&quot;/bin/bash&quot;	2 minutes ago	Up 2 minutes		my_ubuntu</span><br></pre></td></tr></table></figure>
+<p>可见my_ubuntu就是我们新建好的容器，<code>Up 2 minutes</code>代表容器正在后台运行，已经运行2分钟。</p>
+<h4 id="3-进入容器"><a class="header-anchor" href="#3-进入容器">¶</a>3、进入容器</h4>
+<p>执行以下命令即可进入容器中的bash：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it my_ubuntu bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-it</code>和前面一样代表打开标准输入和分配伪终端。</li>
+<li><code>my_ubuntu</code>是要进入容器的名字，我们如果换成容器ID<code>d346805da373</code>也是一样的，但使用名字肯定更方便直观。</li>
+<li>最后的参数代表我们需要容器执行的命令，我们需要交互式的Shell，所以这里输入<code>bash</code>，如果我们只需要执行容器里面的一个命令，可以将<code>bash</code>替换成想执行的命令即可。</li>
+</ul>
+<p>执行后即可进入容器中：</p>
+<img src="/docker-tutorial/enter_docker.jpg" title="进入容器后的界面">
+<p><em>或者执行<code>docker attach my_ubuntu</code>也可以进入容器，但不推荐使用，原因后面会讲。</em></p>
+<p>容器里面是独立的系统环境，我已经配置默认采用Python3，并在workspace中存放my_clock.py文件，执行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python my_clock.py</span><br></pre></td></tr></table></figure>
+<p>程序会每隔一秒在界面中打印系统时间：</p>
+<img src="/docker-tutorial/run_clock.jpg" title="在容器中执行Python程序">
+<p>我还在容器中安装了<code>htop</code>工具，用于查看CPU、内存使用情况，执行<code>htop</code>即可查看：</p>
+<img src="/docker-tutorial/htop.jpg" title="在容器中运行预装的htop工具">
+<p>简单的程序可以如上直接在容器中运行，虽然我们在运行容器时加入了<code>-d</code>参数能保持程序一直运行，但我们无法在重新进入容器时看到程序以前输出的结果。如果需要长时间保持程序的运行，笔者还是推荐在容器中使用tmux，<a href="http://chason.me/tmux-tutorial/" target="_blank" rel="noopener">tmux教程在这里</a>。</p>
+<h4 id="4-退出容器"><a class="header-anchor" href="#4-退出容器">¶</a>4、退出容器</h4>
+<p>退出容器很简单，直接执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exit</span><br></pre></td></tr></table></figure>
+<p>即可回到系统bash中，现在再用<code>docker ps -a</code>查看容器状态，依旧是<code>Up</code>运行状态:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID	IMAGE		COMMAND		CREATED			STATUS		PORTS	NAMES</span><br><span class="line">d346805da373	59693b89568e	&quot;/bin/bash&quot;	10 minutes ago		Up 10 minutes		my_ubuntu</span><br></pre></td></tr></table></figure>
+<p>这是因为我们进入容器时使用的是<code>docker exec</code>命令，如果我们使用的是<code>docker attach</code>命令，退出容器后，容器将会停止运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID	IMAGE		COMMAND		CREATED		STATUS                     PORTS	NAMES</span><br><span class="line">d346805da373	59693b89568e	&quot;/bin/bash&quot;	10 minutes ago	Exited (1) 4 seconds ago		my_ubuntu</span><br></pre></td></tr></table></figure>
+<h4 id="5-启动停止容器"><a class="header-anchor" href="#5-启动停止容器">¶</a>5、启动停止容器</h4>
+<p>容器停止时，可以启动容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start my_ubuntu</span><br></pre></td></tr></table></figure>
+<p>容器正在运行时，也可以停止容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop my_ubuntu</span><br></pre></td></tr></table></figure>
+<h4 id="6-删除容器"><a class="header-anchor" href="#6-删除容器">¶</a>6、删除容器</h4>
+<p>当容器已经停止时，可以直接删除容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm my_ubuntu</span><br></pre></td></tr></table></figure>
+<p>当容器还在运行，可以强制删除容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rm -f my_ubuntu</span><br></pre></td></tr></table></figure>
+<p>如果当前有很多已经停止的容器，一个命令即可清空所有已停止容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure>
+<h4 id="7-导出容器快照-不推荐"><a class="header-anchor" href="#7-导出容器快照-不推荐">¶</a><s>7、导出容器快照（不推荐）</s></h4>
+<p><s>类似镜像的导出，我们同样可以导出容器快照：</s></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker export my_ubuntu &gt; my_ubuntu.tar</span><br></pre></td></tr></table></figure>
+<p><s>容器快照会丢弃所有的历史记录和元数据信息，仅保存容器当时的快照状态。</s></p>
+<h4 id="8-导入容器快照-不推荐"><a class="header-anchor" href="#8-导入容器快照-不推荐">¶</a><s>8、导入容器快照（不推荐）</s></h4>
+<p><s>有了容器快照文件，即可将容器快照导入新的镜像中：</s></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker import my_ubuntu.tar my_ubuntu:1.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li><s><code>my_ubuntu.tar</code>是容器快照。</s></li>
+<li><s><code>my_ubuntu:1.0</code>是新镜像名和标签TAG，若不写TAG，默认为<code>latest</code>。</s><br>
+<s>注意，是导入到镜像中，而不是直接新建一个容器。</s></li>
+</ul>
+<h4 id="9-挂载目录"><a class="header-anchor" href="#9-挂载目录">¶</a>9、挂载目录</h4>
+<p>当我们需要访问宿主机的数据时，就需要把宿主机目录挂载到容器中，在新建容器时使用<code>docker run -v</code>参数即可挂载目录，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit --name my_ubuntu -v /hdd:/workspace/hdd chasonlee/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>-v</code>代表挂载目录，宿主机目录和容器目录用<code>:</code>分开，如果需要挂载多个目录，继续多写几个<code>-v</code>及其对应目录即可。</li>
+<li><code>/hdd</code>是宿主机目录，必须是绝对路径。</li>
+<li><code>/workspace/hdd</code>是容器里面映射的目录，必须是绝对路径，如果目录不存在会自动创建。</li>
+</ul>
+<blockquote>
+<p>至此阶段，相信读者已经掌握了docker的基本使用方法，接下来将会介绍如何制作自定义的镜像。</p>
+</blockquote>
+<hr>
+<h2 id="镜像制作"><a class="header-anchor" href="#镜像制作">¶</a>镜像制作</h2>
+<p>在<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a>中，除了笔者举例的镜像，我们还可以搜索到其他很多高质量的镜像，例如<a href="https://hub.docker.com/_/ubuntu" target="_blank" rel="noopener">Ubuntu官方镜像</a>、<a href="https://hub.docker.com/r/tensorflow/tensorflow" target="_blank" rel="noopener">TensorFlow官方镜像</a>等等。有了这些镜像，我们就没有必要重复造轮子，若这些镜像无法完全满足需求，我们只需要基于这些镜像做一些定制化的修改即可。</p>
+<h3 id="一-理解commit"><a class="header-anchor" href="#一-理解commit">¶</a>一、理解commit</h3>
+<p>镜像的制作，有一种最简单快速的方式是<code>docker commit</code>，只需在某个镜像基础上，启动容器，并在容器中安装自己需要的环境，即可将此容器commit到一个新的镜像中。</p>
+<p>基本语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit [可选项] 容器 [镜像[:标签]]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>可选项</code>包括：<br>
+-a (–author string): 镜像制作者信息，如&quot;<a href="http://chason.me" target="_blank" rel="noopener">chason.me</a>&quot;<br>
+-c (–change list): 使用Dockerfile指令来创建镜像<br>
+-m (–message string): 提交时的说明信息<br>
+-p (–pause): 在commit时，将容器暂停，默认为True</li>
+<li><code>容器</code>可以写容器名或容器ID</li>
+<li><code>镜像[:标签]</code>代表你要新建的镜像和标签名</li>
+</ul>
+<p>假如我们已经在容器<code>my_ubuntu</code>中安装好一切需要的环境，退出容器后，执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -a &quot;chason.me&quot; -m &quot;new environment&quot; my_ubuntu chason_env:latest</span><br></pre></td></tr></table></figure>
+<p>即可创建一个名为<code>chason_env:latest</code>镜像，<a href="http://chason.me/docker-tutorial/#4-%E5%AF%BC%E5%87%BA%E9%95%9C%E5%83%8F" target="_blank" rel="noopener">导出此镜像</a>即可将环境迁移至其他机器使用。</p>
+<p>需要提醒的是，<code>docker commit</code>虽然很方便，但并<strong>不推荐</strong>使用，因为在容器中的每一次操作我们都可能产生很多临时文件，造成镜像越来越臃肿，而且每次操作无法回溯，我们很难知道这个镜像到底执行过什么命令，导致镜像难以维护。</p>
+<p>那是否存在一种方法，能让镜像的修改操作透明、同时又能解决臃肿问题呢？当然有，答案就是<strong>Dockerfile</strong>！</p>
+<h3 id="二-学习dockerfile"><a class="header-anchor" href="#二-学习dockerfile">¶</a>二、学习Dockerfile</h3>
+<p>Dockerfile是一个文本文件，包含了镜像构建的所有命令，通过修改Dockerfile中的命令，就能定制化自己想要的镜像。Dockerfile里面每一个指令都会构建一层镜像，层层叠加最终得到定制化镜像。</p>
+<h4 id="1-基本指令"><a class="header-anchor" href="#1-基本指令">¶</a>1、基本指令</h4>
+<p>让我们重新回到原来的例子，<code>chasonlee/ubuntu_demo</code>镜像是如何构建的呢？</p>
+<p>首先我们在本地新建一个文件夹，专门存放Dockerfile和其他所需文件，并在里面新建<code>my_clock.py</code>程序以及<code>Dockerfile</code>文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir my_docker</span><br><span class="line">cd my_docker</span><br><span class="line">vim my_clock.py</span><br></pre></td></tr></table></figure>
+<p>在Python文件中输入持续打印当前时间的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># coding: utf-8</span><br><span class="line">import time</span><br><span class="line">while True:</span><br><span class="line">    print (time.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;, time.localtime()))</span><br><span class="line">    time.sleep(1)</span><br></pre></td></tr></table></figure>
+<p>保存代码后，在同样的目录下新建Dockerfile文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim Dockerfile</span><br></pre></td></tr></table></figure>
+<p>输入以下Dockerfile指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:16.04</span><br><span class="line">ENV WORK_DIR=/workspace</span><br><span class="line">WORKDIR $&#123;WORK_DIR&#125;</span><br><span class="line">COPY . $&#123;WORK_DIR&#125;</span><br><span class="line">RUN apt update \</span><br><span class="line">	&amp;&amp; apt install -y python3 \</span><br><span class="line">	&amp;&amp; apt install -y htop \</span><br><span class="line">	&amp;&amp; apt install -y tzdata \</span><br><span class="line">	&amp;&amp; apt-get clean \</span><br><span class="line">	&amp;&amp; apt-get autoclean \</span><br><span class="line">	&amp;&amp; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \</span><br><span class="line">	&amp;&amp; ln -s /usr/bin/python3 /usr/bin/python \</span><br><span class="line">	&amp;&amp; ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \</span><br><span class="line">	&amp;&amp; echo &apos;Asia/Shanghai&apos; &gt;/etc/timezone \</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>FROM</code>指令代表基于哪个镜像进行修改，第一条指令必须是<code>FROM</code>指令，若我们不想基于任何镜像，可以写<code>FROM scratch</code>即可完全从零开始构建镜像。</li>
+<li><code>ENV</code>指令可以创建环境变量，比如<code>WORK_DIR</code>工作目录环境变量，后面就能通过<code>${WORK_DIR}</code>调用环境变量的值。</li>
+<li><code>COPY</code>指令可以将宿主机中的文件在构建镜像时复制到镜像存储中。</li>
+<li><code>WORKDIR</code>指令可以指定工作目录，在刚进入容器时，系统会自动转到工作目录，默认的工作目录是根目录<code>/</code>。</li>
+<li><code>RUN</code>指令就是用来执行命令的指令，由于一条指令就会创建一层镜像，而镜像层数是有限制的，一般是127层，当我们需要执行多条命令时，一般都用<code>&amp;&amp;</code>连接多条命令，从而节省镜像层数。</li>
+</ul>
+<p>现在我们逐条命令讲解以上Dockerfile的内容:</p>
+<ol>
+<li>首先是基于<code>ubuntu:16.04</code>镜像开始构建</li>
+<li>设置环境变量WORK_DIR为<code>/workspace</code></li>
+<li>设置工作目录为WORK_DIR</li>
+<li>复制宿主机当前目录所有文件到镜像WORK_DIR目录中，包含<code>Dockerfile</code>和<code>my_clock.py</code></li>
+<li>更新apt列表</li>
+<li>安装Python3，<code>-y</code>代表默认同意安装，这样就不需要手动输入y确认安装。</li>
+<li>安装htop工具</li>
+<li>安装tzdata时间工具</li>
+<li>清除临时软件包</li>
+<li>清除临时软件包</li>
+<li>清除临时文件</li>
+<li>将python软连接到python3</li>
+<li>将系统默认时区设置为亚洲上海</li>
+<li>将系统默认时区设置为亚洲上海</li>
+</ol>
+<p>从Dockerfile可见，整个镜像的构建过程都是透明的、清晰的，为了避免镜像过于臃肿，需要时刻记得清除无用的数据，否则镜像的大小容易失去控制。</p>
+<p>定制自己的镜像就是写一份Dockerfile，把想要的程序或工具的安装命令直接写入Dockerfile即可，比如想用tmux的读者，在Dockerfile里面插入<code>apt install -y tmux</code>即可。</p>
+<h4 id="2-拓展指令"><a class="header-anchor" href="#2-拓展指令">¶</a>2、拓展指令</h4>
+<h5 id="add指令"><a class="header-anchor" href="#add指令">¶</a>ADD指令</h5>
+<p><code>ADD</code>指令和<code>COPY</code>类似，但包含更多功能，比如可以从一个网址下载文件到目标目录中（下载后文件默认权限是<code>600</code>），另外一个常用的功能是自动解压，支持gzip、bzip2和xz压缩格式，比如<code>ADD file.tar /</code>会将压缩包解压到目标路径中。</p>
+<p>由于<code>ADD</code>指令语义不够清晰，除了需要自动解压的情况，我们一般都<strong>不推荐</strong>使用<code>ADD</code>指令。</p>
+<h5 id="cmd指令"><a class="header-anchor" href="#cmd指令">¶</a>CMD指令</h5>
+<p>运行格式：<code>CMD [&quot;可执行文件&quot;, &quot;参数1&quot;, &quot;参数2&quot;...]</code></p>
+<p><code>CMD</code>指令可以用来指定容器默认的运行命令，比如之前我们提到可以这样直接执行容器的bash指令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm chasonlee/ubuntu_demo:latest bash</span><br></pre></td></tr></table></figure>
+<p>其实后面的<code>bash</code>不写也行，因为<code>ubuntu:16.04</code>镜像中已经用CMD指令设置好默认命令为<code>bash</code>。</p>
+<p>若我们在Dockerfile中加入<code>CMD [&quot;python&quot;,&quot;my_clock.py&quot;]</code>，重新构建镜像后，运行容器时后面不加任何命令，就会默认执行<code>python my_clock.py</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --rm chasonlee/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<p>执行后就会每隔一秒钟输出一次系统时间。若我们在后面加入其它命令，就会替换默认的命令。</p>
+<blockquote>
+<p>敬请期待…</p>
+</blockquote>
+<ul>
+<li><code>ENTRYPOINT</code></li>
+<li><code>ARG</code></li>
+<li><code>VOLUME</code></li>
+<li><code>EXPOSE</code></li>
+<li><code>USER</code></li>
+<li><code>HEALTHCHECK</code></li>
+<li><code>ONBUILD</code></li>
+</ul>
+<h3 id="三-构建镜像"><a class="header-anchor" href="#三-构建镜像">¶</a>三、构建镜像</h3>
+<p>完成Dockerfile之后，便可在Dockerfile的目录中直接构建镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t ubuntu_demo:latest .</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>ubuntu_demo:latest</code>是构建的镜像名和标签，如需上传到Docker Hub，可以修改为<code>&lt;user name&gt;/&lt;image name&gt;:&lt;tag&gt;</code>形式。</li>
+<li><code>.</code>最后一个参数指向Dockerfile所在的目录，这里是当前目录。</li>
+</ul>
+<p>执行后就会开始根据Dockerfile的内容构建镜像，需要等待一段时间，联网下载的部分命令耗时会比较长，读者如果需要安装TensorFlow之类安装包较大的库时，建议先下载好本地whl文件，用<code>COPY</code>命令复制到镜像中，用<code>RUN</code>命令安装并把whl文件删除。</p>
+<p>如果构建失败，请查看Dockerfile中的命令是否有问题。如果成功，恭喜你已经掌握了基本的镜像构建方法！</p>
+<p>执行<code>docker images</code>即可查看刚刚构建成功的镜像。</p>
+<hr>
+<h2 id="docker-hub使用"><a class="header-anchor" href="#docker-hub使用">¶</a>Docker Hub使用</h2>
+<p>首先请到<a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub官网</a>注册一个账号，每个账号都有一个免费的私有仓库，无限个公有仓库，私有仓库只有你自己能看到，如有需要可以购买更多私有仓库。</p>
+<h3 id="一-登陆登出docker-hub"><a class="header-anchor" href="#一-登陆登出docker-hub">¶</a>一、登陆登出Docker Hub</h3>
+<p>如果需要上传镜像到自己的Docker Hub，需要先在bash中登陆：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login</span><br></pre></td></tr></table></figure>
+<p>之后输入自己的账号密码即可。</p>
+<p>若需要登陆其他平台的仓库，在后面加上网址即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login &lt;url&gt;</span><br></pre></td></tr></table></figure>
+<p>需要登出时可执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logout</span><br></pre></td></tr></table></figure>
+<p>若需要登陆其他账号，可以加入<code>-u</code>参数，<code>-p</code>可以输入密码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login -u 用户名 -p 密码</span><br></pre></td></tr></table></figure>
+<h3 id="二-上传镜像"><a class="header-anchor" href="#二-上传镜像">¶</a>二、上传镜像</h3>
+<p>与下载镜像<code>pull</code>相反，上传镜像用<code>push</code>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push &lt;user name&gt;/ubuntu_demo:latest</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>&lt;user name&gt;</code>是自己的用户名，如果构建镜像时，镜像名称前面忘记加用户名，请用<a href="http://chason.me/docker-tutorial/#6-%E4%BF%AE%E6%94%B9%E9%95%9C%E5%83%8F%E5%90%8D%E7%A7%B0%E5%8F%8A%E6%A0%87%E7%AD%BE" target="_blank" rel="noopener"><code>docker tag</code></a>命令修改。</li>
+</ul>
+<p>镜像上传需要一定时间，取决于镜像大小和网速。上传成功后镜像默认存在私有仓库中，在<code>Setting</code>中<code>Make public</code>即可转为公开的仓库。</p>
+<hr>
+<h2 id="nvidia-docker"><a class="header-anchor" href="#nvidia-docker">¶</a>nvidia-docker</h2>
+<p>Docker支持CUDA环境的隔绝，这是深度学习算法框架使用者的福音，因为TensorFlow的不同版本可能需要不同CUDA版本，这导致无法用<a href="http://chason.me/virtualenv-tutorial/" target="_blank" rel="noopener">virtualenv</a>在同一台机安装多个版本跨度较大的TensorFlow，有了Docker，这种问题就能迎刃而解。</p>
+<p>基于前面的内容，读者可能会发现，在之前启动的Docker容器里面并不能执行<code>nvidia-smi</code>命令，无法使用GPU版本的TensorFlow或PyTorch。不用着急，现在我们开始学习如何配置一个带NVIDIA的Docker，只需在<a href="http://chason.me/docker-tutorial/#%E4%B8%80-%E5%AE%89%E8%A3%85docker" target="_blank" rel="noopener">安装Docker</a>的基础之上，继续安装nvidia-docker2即可，具体可参考<a href="https://github.com/NVIDIA/nvidia-docker" target="_blank" rel="noopener">nvidia-docker说明</a>，主要包含以下几个步骤：</p>
+<h3 id="一-卸载旧版nvidia-docker"><a class="header-anchor" href="#一-卸载旧版nvidia-docker">¶</a>一、卸载旧版nvidia-docker</h3>
+<blockquote>
+<p>If you have nvidia-docker 1.0 installed: we need to remove it and all existing GPU containers</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls -q -f driver=nvidia-docker | xargs -r -I&#123;&#125; -n1 docker ps -q -a -f volume=&#123;&#125; | xargs -r docker rm -f</span><br><span class="line">sudo apt-get purge -y nvidia-docker</span><br></pre></td></tr></table></figure>
+<h3 id="二-添加包源"><a class="header-anchor" href="#二-添加包源">¶</a>二、添加包源</h3>
+<blockquote>
+<p>Add the package repositories</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \</span><br><span class="line">  sudo apt-key add -</span><br><span class="line">distribution=$(. /etc/os-release;echo $ID$VERSION_ID)</span><br><span class="line">curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | \</span><br><span class="line">  sudo tee /etc/apt/sources.list.d/nvidia-docker.list</span><br><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+<h3 id="三-安装nvidia-docker2"><a class="header-anchor" href="#三-安装nvidia-docker2">¶</a>三、安装nvidia-docker2</h3>
+<blockquote>
+<p>Install nvidia-docker2 and reload the Docker daemon configuration</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y nvidia-docker2</span><br><span class="line">sudo pkill -SIGHUP dockerd</span><br></pre></td></tr></table></figure>
+<h3 id="四-测试nvidia-docker"><a class="header-anchor" href="#四-测试nvidia-docker">¶</a>四、测试nvidia-docker</h3>
+<p>安装完成后，我们可以在启动容器的命令前面加上<code>nvidia-</code>即可启动<strong>支持GPU的Docker</strong>。</p>
+<p>首先，我们需要先下载一个自带CUDA的镜像，读者可以在<a href="https://hub.docker.com/" target="_blank" rel="noopener">DockerHub</a>里面自行寻找，或尝试这个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nvidia/cuda:10.0-base-ubuntu16.04</span><br></pre></td></tr></table></figure>
+<p>镜像拉回本地后，即可使用<code>nvidia-docker</code>命令创建容器：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-docker run -dit --name my_ubuntu_gpu nvidia/cuda:10.0-base-ubuntu16.04</span><br></pre></td></tr></table></figure>
+<p>等同于加<code>--runtime=nvidia</code>，这种新的用法只有<strong>nvidia-docker v2</strong>支持：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --runtime=nvidia -dit --name my_ubuntu_gpu nvidia/cuda:10.0-base-ubuntu16.04</span><br></pre></td></tr></table></figure>
+<p>为了加以区分，容器名后面加上了<code>_gpu</code>，进入容器的方法不变：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it my_ubuntu_gpu bash</span><br></pre></td></tr></table></figure>
+<p>现在进入容器后即可执行<code>nvidia-smi</code>查看GPU状态。</p>
+<p>注意：nvidia-docker只是能让Docker支持GPU而已，Docker镜像需要同时带有CUDA才能使用GPU，如上面的<code>nvidia/cuda:10.0-base-ubuntu16.04</code>镜像，我们可以基于此定制自己的镜像。另外，也可以基于不带CUDA的镜像，先下载好CUDA安装包，然后在Dockerfile里面写好安装的命令，在构建镜像的过程中安装好CUDA（安装cuDNN也是同样的思路）。</p>
+<hr>
+<h2 id="结束语"><a class="header-anchor" href="#结束语">¶</a>结束语</h2>
+<p>我们从镜像到容器、从运行到构建、从CPU到GPU，一步步学完了Docker的基本使用方法。笔者在本文以实例的方式讲述Docker的使用，是希望读者能以边读边实践方式进行学习，没人可以一次记住所有的命令，熟练的前提是反复不断地练习。另外，本文介绍的内容并非Docker的全部，更多内容有待读者自行探索<a href="https://docs.docker.com/" target="_blank" rel="noopener">Docker官网文档</a>，未来我也会持续更新。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>您的支持将鼓励我继续创作！</div>
+	<button id="rewardButton" ,="" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}" style="cursor: pointer; border: 0; outline: 0; border-radius: 100%; padding: 0; margin: 0; letter-spacing: normal; text-transform: none; text-indent: 0px; text-shadow: none">
+	  <span onmouseover="this.style.color='rgb(255,255,255)';this.style.background='rgb(250,140,130)'" onmouseout="this.style.color='#fff';this.style.background='rgb(250,80,60)'" style="display: inline-block; width: 55px; height: 55px; border-radius: 100%; line-height: 11px; color: #fff; font: 300 30px/52px 'microsofty'; background: rgb(250,80,60)">赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/reward/wx.jpg" alt="Chason Lee WeChat Pay">
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/reward/zfb.jpg" alt="Chason Lee Alipay">
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+  <ul class="post-copyright">
+    <li class="post-copyright-author">
+      <strong>本文作者：</strong>
+      Chason Lee
+    </li>
+    <li class="post-copyright-link">
+      <strong>本文链接：</strong>
+      <a href="http://chason.pro/docker-tutorial/" title="Docker超详细教程">http://chason.pro/docker-tutorial/</a>
+    </li>
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong>
+      本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/Ubuntu/" rel="tag"># Ubuntu</a>
+          
+            <a href="/tags/镜像/" rel="tag"># 镜像</a>
+          
+            <a href="/tags/容器/" rel="tag"># 容器</a>
+          
+            <a href="/tags/CUDA/" rel="tag"># CUDA</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/machine-learning-101/" rel="next" title="零基础机器学习入门">
+                <i class="fa fa-chevron-left"></i> 零基础机器学习入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/uploads/v.jpg" alt="Chason Lee">
+          <p class="site-author-name" itemprop="name">Chason Lee</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/chasonlee" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/chasonleech" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-text">¶简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解docker"><span class="nav-text">¶理解Docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速上手docker"><span class="nav-text">¶快速上手Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-安装docker"><span class="nav-text">¶一、安装Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-镜像操作"><span class="nav-text">¶二、镜像操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-获取docker镜像"><span class="nav-text">¶1、获取Docker镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查看本地镜像"><span class="nav-text">¶2、查看本地镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-删除镜像"><span class="nav-text">¶3、删除镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-导出镜像"><span class="nav-text">¶4、导出镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-导入镜像"><span class="nav-text">¶5、导入镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-修改镜像名称及标签"><span class="nav-text">¶6、修改镜像名称及标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-容器操作"><span class="nav-text">¶三、容器操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-新建并启动容器"><span class="nav-text">¶1、新建并启动容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-查看容器"><span class="nav-text">¶2、查看容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-进入容器"><span class="nav-text">¶3、进入容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-退出容器"><span class="nav-text">¶4、退出容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-启动停止容器"><span class="nav-text">¶5、启动停止容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-删除容器"><span class="nav-text">¶6、删除容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-导出容器快照-不推荐"><span class="nav-text">¶7、导出容器快照（不推荐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-导入容器快照-不推荐"><span class="nav-text">¶8、导入容器快照（不推荐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-挂载目录"><span class="nav-text">¶9、挂载目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像制作"><span class="nav-text">¶镜像制作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-理解commit"><span class="nav-text">¶一、理解commit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-学习dockerfile"><span class="nav-text">¶二、学习Dockerfile</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本指令"><span class="nav-text">¶1、基本指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-拓展指令"><span class="nav-text">¶2、拓展指令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#add指令"><span class="nav-text">¶ADD指令</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cmd指令"><span class="nav-text">¶CMD指令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-构建镜像"><span class="nav-text">¶三、构建镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker-hub使用"><span class="nav-text">¶Docker Hub使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-登陆登出docker-hub"><span class="nav-text">¶一、登陆登出Docker Hub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-上传镜像"><span class="nav-text">¶二、上传镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nvidia-docker"><span class="nav-text">¶nvidia-docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-卸载旧版nvidia-docker"><span class="nav-text">¶一、卸载旧版nvidia-docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-添加包源"><span class="nav-text">¶二、添加包源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-安装nvidia-docker2"><span class="nav-text">¶三、安装nvidia-docker2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-测试nvidia-docker"><span class="nav-text">¶四、测试nvidia-docker</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束语"><span class="nav-text">¶结束语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chason Lee</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访客量
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
